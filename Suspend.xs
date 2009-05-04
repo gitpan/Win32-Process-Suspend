@@ -13,3 +13,9 @@ Resume(int hProc)
 
 int
 GetHandle(int PID)
+
+int
+SuspendT(int hThread)
+
+int
+ResumeT(int hThread)

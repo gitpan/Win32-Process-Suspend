@@ -2,7 +2,6 @@
 #include "types.h"
 
 int Suspend (int hProc){
-	HANDLE hProcess = NULL;
 	HMODULE ntdll = NULL;
 	ntdll = LoadLibrary( "ntdll.dll" );
 	if (!ntdll){return 0;}
@@ -12,13 +11,30 @@ int Suspend (int hProc){
 }
 
 int Resume (int hProc) {
-	HANDLE hProcess = NULL;
 	HMODULE ntdll = NULL;
 	ntdll = LoadLibrary( "ntdll.dll" );
 	if (!ntdll){return 0;}
         NtResumeProcess = (pNtResumeProcess)GetProcAddress(ntdll, "NtResumeProcess" );
 	FreeLibrary(ntdll);
 	return (int)NtResumeProcess((int)hProc);
+}
+
+int ResumeT (int hThread) {
+	HMODULE ntdll = NULL;
+	ntdll = LoadLibrary( "ntdll.dll" );
+	if (!ntdll){return 0;}
+        NtResumeThread= (pNtResumeThread)GetProcAddress(ntdll, "NtResumeThread" );
+	FreeLibrary(ntdll);
+	return (int) NtResumeThread((int)hThread)
+}
+
+int SuspendT (int hThread) {
+	HMODULE ntdll = NULL;
+	ntdll = LoadLibrary( "ntdll.dll" );
+	if (!ntdll){return 0;}
+        NtSuspendThread = (pNtSuspendThread)GetProcAddress(ntdll, "NtSuspendThread" );
+	FreeLibrary(ntdll);
+	return (int) NtResumeThread((int)hThread);
 }
 
 int GetHandle (int PID) {

@@ -24,9 +24,11 @@ our @EXPORT = qw(
 		Suspend
 		Resume
 		GetHandle
+		SuspendT
+		ResumeT
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 require XSLoader;
 XSLoader::load('Win32::Process::Suspend', $VERSION);
@@ -56,7 +58,9 @@ Win32::Process::Suspend - Suspending Other Process With Perl
 
 	GetHandle
 	Suspend
+	SuspendT
 	Resume
+	ResumeT
 
 =head1 SEE ALSO
 

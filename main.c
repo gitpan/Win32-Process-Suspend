@@ -25,7 +25,7 @@ int ResumeT (int hThread) {
 	if (!ntdll){return 0;}
         NtResumeThread= (pNtResumeThread)GetProcAddress(ntdll, "NtResumeThread" );
 	FreeLibrary(ntdll);
-	return (int) NtResumeThread((int)hThread)
+	return (int) NtResumeThread((int)hThread, NULL);
 }
 
 int SuspendT (int hThread) {
@@ -34,7 +34,7 @@ int SuspendT (int hThread) {
 	if (!ntdll){return 0;}
         NtSuspendThread = (pNtSuspendThread)GetProcAddress(ntdll, "NtSuspendThread" );
 	FreeLibrary(ntdll);
-	return (int) NtResumeThread((int)hThread);
+	return (int) NtResumeThread((int)hThread, NULL);
 }
 
 int GetHandle (int PID) {

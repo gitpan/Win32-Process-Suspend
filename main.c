@@ -7,7 +7,7 @@ int Suspend (int hProc){
 	if (!ntdll){return 0;}
 	NtSuspendProcess = (pNtSuspendProcess)GetProcAddress(ntdll, "NtSuspendProcess" );
 	FreeLibrary(ntdll);
-	return (int)NtSuspendProcess((int)hProc);
+	return (int)NtSuspendProcess(hProc);
 }
 
 int Resume (int hProc) {
@@ -16,7 +16,7 @@ int Resume (int hProc) {
 	if (!ntdll){return 0;}
         NtResumeProcess = (pNtResumeProcess)GetProcAddress(ntdll, "NtResumeProcess" );
 	FreeLibrary(ntdll);
-	return (int)NtResumeProcess((int)hProc);
+	return (int)NtResumeProcess(hProc);
 }
 
 int ResumeT (int hThread) {
@@ -25,7 +25,7 @@ int ResumeT (int hThread) {
 	if (!ntdll){return 0;}
         NtResumeThread= (pNtResumeThread)GetProcAddress(ntdll, "NtResumeThread" );
 	FreeLibrary(ntdll);
-	return (int) NtResumeThread((int)hThread, NULL);
+	return (int)NtResumeThread(hThread, 0);
 }
 
 int SuspendT (int hThread) {
@@ -34,10 +34,10 @@ int SuspendT (int hThread) {
 	if (!ntdll){return 0;}
         NtSuspendThread = (pNtSuspendThread)GetProcAddress(ntdll, "NtSuspendThread" );
 	FreeLibrary(ntdll);
-	return (int) NtResumeThread((int)hThread, NULL);
+	return (int)NtResumeThread(hThread, 0);
 }
 
 int GetHandle (int PID) {
 	PID += 3;
-	return (int)OpenProcess(PROCESS_ALL_ACCESS, 0, (int)PID);
+	return (int)OpenProcess(PROCESS_ALL_ACCESS, 0, PID);
 }

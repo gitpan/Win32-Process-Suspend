@@ -28,7 +28,7 @@ our @EXPORT = qw(
 		ResumeT
 );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 require XSLoader;
 XSLoader::load('Win32::Process::Suspend', $VERSION);
@@ -64,11 +64,13 @@ Win32::Process::Suspend - Suspending Other Process With Perl
 
 =head1 SEE ALSO
 
-	rootkwok@cpan.org
+	My Mail: L<rootkwok@cpan.org>
+	Install Win32::Process::Suspend with PPM:
+	ppm install http://sites.google.com/site/lokchungk/mod/Win32-Process-Suspend.ppd?attredirects=0
 
 =head1 AUTHOR
 
-Baggio, Kwok Lok Chung <L>rootkwok@cpan.org</L>
+Baggio, Kwok Lok Chung L<rootkwok@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 

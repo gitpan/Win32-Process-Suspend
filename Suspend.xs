@@ -6,16 +6,19 @@
 MODULE = Win32::Process::Suspend		PACKAGE = Win32::Process::Suspend		
 
 int
-Suspend(int hProc)
+Import()
 
 int
-Resume(int hProc)
+_SuspendProc(int hProc)
+
+int
+_ResumeProc(int hProc)
 
 int
 GetHandle(int PID)
 
 int
-SuspendT(int hThread)
+_SuspendThreads(int hThread)
 
 int
-ResumeT(int hThread)
+_ResumeThreads(int hThread)

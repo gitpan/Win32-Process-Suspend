@@ -1,8 +1,8 @@
 package Win32::Process::Suspend;
 
-use 5.010000;
-use strict;
-use warnings;
+#use 5.010000;
+#use strict;
+#use warnings;
 
 require Exporter;
 
@@ -15,29 +15,38 @@ our @ISA = qw(Exporter);
 # This allows declaration	use Win32::Process::Suspend ':all';
 # If you do not need this, moving things directly into @EXPORT or @EXPORT_OK
 # will save memory.
-our %EXPORT_TAGS = ( 'all' => [ qw(
-) ] );
+our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-our @EXPORT = qw(
-		Suspend
-		Resume
-		GetHandle
-		SuspendT
-		ResumeT
-);
+our @EXPORT = qw(SuspendProcess SuspendThread ResumeProcess ResumeThread GetHandle);
 
-our $VERSION = '0.04';
+our $VERSION = '0.06';
 
 require XSLoader;
 XSLoader::load('Win32::Process::Suspend', $VERSION);
+sub SuspendProcess {
+	map{if(!Win32::Process::Suspend::_SuspendProc($_)){return 0}}@_;
+	1;
+}
 
-# Preloaded methods go here.
+sub ResumeProcess {
+	return map{if(!Win32::Process::Suspend::_ResumeProc($_)){return 0}}@_;
+	1;
+}
 
-1;
+sub SuspendThread {
+	return map{if(!Win32::Process::Suspend::_SuspendThreads($_)){return 0}}@_;
+	1;
+}
+
+sub ResumeThread {
+	return map{if(!Win32::Process::Suspend::_ResumeThreads($_)){return 0}}@_;
+	1;
+}
+
+return Win32::Process::Suspend::Import();
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
@@ -46,9 +55,9 @@ Win32::Process::Suspend - Suspending Other Process With Perl
 =head1 SYNOPSIS
 
   use Win32::Process::Suspend;
-  Suspend(GetHandle($pid));
+  SuspendProcess(GetHandle($pid));
   #do some thing
-  Resume(GetHandle($pid));
+  ResumeProcess(GetHandle($pid));
   
 =head1 DESCRIPTION
 
@@ -57,14 +66,14 @@ Win32::Process::Suspend - Suspending Other Process With Perl
 =head2 EXPORT
 
 	GetHandle
-	Suspend
-	SuspendT
-	Resume
-	ResumeT
+	SuspendProcess
+	SuspendThread
+	ResumeProcess
+	ResumeThread
 
 =head1 SEE ALSO
 
-	My Mail: L<rootkwok@cpan.org>
+	My Mail: rootkwok@cpan.org
 	Install Win32::Process::Suspend with PPM:
 	ppm install http://sites.google.com/site/lokchungk/mod/Win32-Process-Suspend.ppd?attredirects=0
 

@@ -3,4 +3,5 @@ main.c
 Makefile.PL
 MANIFEST			This list of files
 Suspend.xs
+test.pl
 types.h

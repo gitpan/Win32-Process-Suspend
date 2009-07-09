@@ -1,40 +1,38 @@
 #include <windows.h>
 #include "types.h"
 
-int Suspend (int hProc){
-	HMODULE ntdll = NULL;
-	ntdll = LoadLibrary( "ntdll.dll" );
-	if (!ntdll){return 0;}
-	NtSuspendProcess = (pNtSuspendProcess)GetProcAddress(ntdll, "NtSuspendProcess" );
-	FreeLibrary(ntdll);
-	return (int)NtSuspendProcess(hProc);
+int Import () {
+	HMODULE ntdll = LoadLibrary("ntdll.dll");
+	if (ntdll){
+		NtSuspendProcess = (pNtSuspendProcess)GetProcAddress(ntdll, "NtSuspendProcess");
+		NtResumeProcess = (pNtResumeProcess)GetProcAddress(ntdll, "NtResumeProcess");
+		NtSuspendThread = (pNtSuspendThread)GetProcAddress(ntdll, "NtSuspendThread");
+		NtResumeThread= (pNtResumeThread)GetProcAddress(ntdll, "NtResumeThread");
+		FreeLibrary(ntdll);
+		return 1;
+	}else{
+		return 0;
+	}
 }
 
-int Resume (int hProc) {
-	HMODULE ntdll = NULL;
-	ntdll = LoadLibrary( "ntdll.dll" );
-	if (!ntdll){return 0;}
-        NtResumeProcess = (pNtResumeProcess)GetProcAddress(ntdll, "NtResumeProcess" );
-	FreeLibrary(ntdll);
-	return (int)NtResumeProcess(hProc);
+int _SuspendProc (int hProc){
+	(int)NtSuspendProcess(hProc);
+	return 1;
 }
 
-int ResumeT (int hThread) {
-	HMODULE ntdll = NULL;
-	ntdll = LoadLibrary( "ntdll.dll" );
-	if (!ntdll){return 0;}
-        NtResumeThread= (pNtResumeThread)GetProcAddress(ntdll, "NtResumeThread" );
-	FreeLibrary(ntdll);
-	return (int)NtResumeThread(hThread, 0);
+int _ResumeProc (int hProc) {
+	(int)NtResumeProcess(hProc);
+	return 1;
 }
 
-int SuspendT (int hThread) {
-	HMODULE ntdll = NULL;
-	ntdll = LoadLibrary( "ntdll.dll" );
-	if (!ntdll){return 0;}
-        NtSuspendThread = (pNtSuspendThread)GetProcAddress(ntdll, "NtSuspendThread" );
-	FreeLibrary(ntdll);
-	return (int)NtResumeThread(hThread, 0);
+int _ResumeThreads (int hThread) {
+	(int)NtResumeThread(hThread, 0);
+	return 1;
+}
+
+int _SuspendThreads (int hThread) {
+	(int)NtResumeThread(hThread, 0);
+	return 1;
 }
 
 int GetHandle (int PID) {

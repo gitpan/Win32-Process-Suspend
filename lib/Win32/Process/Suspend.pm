@@ -1,49 +1,18 @@
 package Win32::Process::Suspend;
-
-#use 5.010000;
-#use strict;
-#use warnings;
-
 require Exporter;
 
 our @ISA = qw(Exporter);
-
-# Items to export into callers namespace by default. Note: do not export
-# names by default without a very good reason. Use EXPORT_OK instead.
-# Do not simply export all your public functions/methods/constants.
-
-# This allows declaration	use Win32::Process::Suspend ':all';
-# If you do not need this, moving things directly into @EXPORT or @EXPORT_OK
-# will save memory.
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
-
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-
 our @EXPORT = qw(SuspendProcess SuspendThread ResumeProcess ResumeThread GetHandle);
-
-our $VERSION = '0.06';
+our $VERSION = '0.064_0001';
 
 require XSLoader;
 XSLoader::load('Win32::Process::Suspend', $VERSION);
-sub SuspendProcess {
-	map{if(!Win32::Process::Suspend::_SuspendProc($_)){return 0}}@_;
-	1;
-}
-
-sub ResumeProcess {
-	return map{if(!Win32::Process::Suspend::_ResumeProc($_)){return 0}}@_;
-	1;
-}
-
-sub SuspendThread {
-	return map{if(!Win32::Process::Suspend::_SuspendThreads($_)){return 0}}@_;
-	1;
-}
-
-sub ResumeThread {
-	return map{if(!Win32::Process::Suspend::_ResumeThreads($_)){return 0}}@_;
-	1;
-}
+sub SuspendProcess {return map{_SuspendProcess($_)}@_}
+sub ResumeProcess {return map{_ResumeProcess($_)}@_}
+sub SuspendThread {return map{_SuspendThread($_)}@_}
+sub ResumeThread {return map{_ResumeThread($_)}@_}
 
 return Win32::Process::Suspend::Import();
 __END__
@@ -55,13 +24,24 @@ Win32::Process::Suspend - Suspending Other Process With Perl
 =head1 SYNOPSIS
 
   use Win32::Process::Suspend;
-  SuspendProcess(GetHandle($pid));
+  $handle = GetHandle($pid);
+  SuspendProcess($handle);
   #do some thing
-  ResumeProcess(GetHandle($pid));
+  ResumeProcess($handle);
   
 =head1 DESCRIPTION
 
 	This module is used for suspending process on Win32.
+	Something wrong with the script and XS.
+	It will crash after suspending or resumming others.
+	see Alternation for another method.
+	I'll fix this module as soon as possible
+
+=head1 Alternation
+
+	use Win32::API;
+	my $SuspendProcess = Win32::API->new('ntdll','NtSuspendProcess',[I],'I');
+	my $ResumeProcess = Win32::API->new('ntdll','NtResumeProcess',[I],'I');
 
 =head2 EXPORT
 
@@ -73,13 +53,11 @@ Win32::Process::Suspend - Suspending Other Process With Perl
 
 =head1 SEE ALSO
 
-	My Mail: rootkwok@cpan.org
-	Install Win32::Process::Suspend with PPM:
-	ppm install http://sites.google.com/site/lokchungk/mod/Win32-Process-Suspend.ppd?attredirects=0
+	My Mail: rootkwok <AT> cpan <dot> org
 
 =head1 AUTHOR
 
-Baggio, Kwok Lok Chung L<rootkwok@cpan.org>
+Baggio, Kwok Lok Chung rootkwok <AT> cpan <dot> org
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -88,6 +66,4 @@ Copyright (C) 2009 by Baggio, Kwok Lok Chung
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.0 or,
 at your option, any later version of Perl 5 you may have available.
-
-
 =cut

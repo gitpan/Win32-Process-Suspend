@@ -5,15 +5,15 @@ our @ISA = qw(Exporter);
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(SuspendProcess SuspendThread ResumeProcess ResumeThread GetHandle);
-our $VERSION = '0.064_0001';
+our $VERSION = '0.064_0002';
 
 require XSLoader;
 XSLoader::load('Win32::Process::Suspend', $VERSION);
-sub SuspendProcess {return map{_SuspendProcess($_)}@_}
-sub ResumeProcess {return map{_ResumeProcess($_)}@_}
-sub SuspendThread {return map{_SuspendThread($_)}@_}
-sub ResumeThread {return map{_ResumeThread($_)}@_}
-
+sub SuspendProcess {return map{Win32::Process::Suspend::_SuspendProcess($_)}@_}
+sub ResumeProcess {return map{Win32::Process::Suspend::_ResumeProcess($_)}@_}
+sub SuspendThread {return map{Win32::Process::Suspend::_SuspendThread($_)}@_}
+sub ResumeThread {return map{Win32::Process::Suspend::_ResumeThread($_)}@_}
+sub GetHandle {return map{Win32::Process::Suspend::_GetHandle($_)}@_}
 return Win32::Process::Suspend::Import();
 __END__
 
@@ -33,9 +33,10 @@ Win32::Process::Suspend - Suspending Other Process With Perl
 
 	This module is used for suspending process on Win32.
 	Something wrong with the script and XS.
-	It will crash after suspending or resumming others.
-	see Alternation for another method.
-	I'll fix this module as soon as possible
+	
+	PLEASE ENSURE YOUR C COMPILER'S OPTIMIZER HAD BEEN TURNED OFF
+
+	See Alternation for another method.
 
 =head1 Alternation
 

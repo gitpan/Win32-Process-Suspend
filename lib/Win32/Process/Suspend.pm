@@ -5,7 +5,7 @@ our @ISA = qw(Exporter);
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(SuspendProcess SuspendThread ResumeProcess ResumeThread GetHandle);
-our $VERSION = '0.064_0002';
+our $VERSION = '0.064';
 
 require XSLoader;
 XSLoader::load('Win32::Process::Suspend', $VERSION);

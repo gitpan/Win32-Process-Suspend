@@ -1,4 +1,5 @@
 use ExtUtils::MakeMaker;
+use Config;
 
 $opt = '-O0';
 $opt .= ' -s' if $Config{'cc'} eq 'gcc';
@@ -11,5 +12,5 @@ WriteMakefile(
       (ABSTRACT_FROM  => 'lib/Win32/Process/Suspend.pm', # retrieve abstract from module
        AUTHOR         => 'Baggio, Kwok Lok Chung <rootkwok@cpan.org>') : ()),
     INC               => '-I.',
-	OPTIMIZE		  => '-O0',
+	OPTIMIZE		  => $opt,
 );

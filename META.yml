@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Win32-Process-Suspend
-version:            0.064
+version:            0.0642
 abstract:           Suspending Other Process With Perl
 author:
     - Baggio, Kwok Lok Chung <rootkwok@cpan.org>

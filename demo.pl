@@ -1,10 +1,5 @@
 use Win32::Process::Suspend;
-=pod
-my @pids = qw(3580);
-my @Handles = GetHandle(@pids);
-SuspendProcess(@Handles);
-@Handles = @pids = ();
-=cut
+
 do{
 	chomp;
 	if($_){

@@ -5,15 +5,15 @@ our @ISA = qw(Exporter);
 our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(SuspendProcess SuspendThread ResumeProcess ResumeThread GetHandle);
-our $VERSION = '0.064';
+our $VERSION = '0.0642';
 
 require XSLoader;
 XSLoader::load('Win32::Process::Suspend', $VERSION);
-sub SuspendProcess {return map{Win32::Process::Suspend::_SuspendProcess($_)}@_}
-sub ResumeProcess {return map{Win32::Process::Suspend::_ResumeProcess($_)}@_}
-sub SuspendThread {return map{Win32::Process::Suspend::_SuspendThread($_)}@_}
-sub ResumeThread {return map{Win32::Process::Suspend::_ResumeThread($_)}@_}
-sub GetHandle {return map{Win32::Process::Suspend::_GetHandle($_)}@_}
+sub SuspendProcess {return map Win32::Process::Suspend::_SuspendProcess($_),@_}
+sub ResumeProcess {return map Win32::Process::Suspend::_ResumeProcess($_),@_}
+sub SuspendThread {return map Win32::Process::Suspend::_SuspendThread($_),@_}
+sub ResumeThread {return map Win32::Process::Suspend::_ResumeThread($_),@_}
+sub GetHandle {return map Win32::Process::Suspend::_GetHandle($_),@_}
 return Win32::Process::Suspend::Import();
 __END__
 
